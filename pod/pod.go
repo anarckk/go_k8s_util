@@ -61,7 +61,7 @@ func (podUtil *PodUtil) SimplePodExist(ns string, podName string) {
 		log.Println(e)
 		return
 	}
-	log.Printf("check pod[%s] exits: %t", podName, b)
+	log.Printf("check pod[%s] exits in ns[%s]: %t", podName, ns, b)
 }
 
 func (podUtil *PodUtil) GetPodByName(ctx context.Context, ns string, podName string) (*corev1.Pod, error) {

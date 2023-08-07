@@ -3,6 +3,7 @@ package ns
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/k8s_assist"
 	corev1 "k8s.io/api/core/v1"
@@ -45,6 +46,15 @@ func (nsUtil *NamespaceUtil) NsExists(ctx context.Context, ns string) (bool, err
 		}
 	}
 	return true, nil
+}
+
+func (nsUtil *NamespaceUtil) SimpleNsExist(ns string) {
+	b, e := nsUtil.NsExists(context.Background(), ns)
+	if e != nil {
+		log.Println(e)
+		return
+	}
+	log.Printf("check ns[%s] exits : %t", ns, b)
 }
 
 func (nsUtil *NamespaceUtil) GetNs(ctx context.Context, ns string) (*corev1.Namespace, error) {

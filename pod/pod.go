@@ -3,6 +3,7 @@ package pod
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/k8s_assist"
 	corev1 "k8s.io/api/core/v1"
@@ -52,6 +53,15 @@ func (podUtil *PodUtil) PodExistByName(ctx context.Context, ns string, podName s
 		}
 	}
 	return true, nil
+}
+
+func (podUtil *PodUtil) SimplePodExist(ns string, podName string) {
+	b, e := podUtil.PodExistByName(context.Background(), ns, podName)
+	if e != nil {
+		log.Println(e)
+		return
+	}
+	log.Printf("check pod[%s] exits: %t", podName, b)
 }
 
 func (podUtil *PodUtil) GetPodByName(ctx context.Context, ns string, podName string) (*corev1.Pod, error) {

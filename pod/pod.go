@@ -3,7 +3,6 @@ package pod
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/k8s_assist"
 	corev1 "k8s.io/api/core/v1"
@@ -58,11 +57,7 @@ func (podUtil *PodUtil) PodExistByName(ctx context.Context, ns string, podName s
 func (podUtil *PodUtil) GetPodByName(ctx context.Context, ns string, podName string) (*corev1.Pod, error) {
 	pod, err := podUtil.ClientSet.CoreV1().Pods(ns).Get(ctx, podName, metav1.GetOptions{})
 	if err != nil {
-		if strings.Contains(err.Error(), "not found") {
-			return nil, nil
-		} else {
-			return nil, err
-		}
+		return nil, err
 	}
 	return pod, nil
 }

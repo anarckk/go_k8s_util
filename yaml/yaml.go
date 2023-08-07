@@ -1,4 +1,4 @@
-package yaml_util
+package yaml
 
 import (
 	"context"

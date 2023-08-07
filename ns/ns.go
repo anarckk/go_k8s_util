@@ -54,7 +54,7 @@ func (nsUtil *NamespaceUtil) SimpleNsExist(ns string) {
 		log.Println(e)
 		return
 	}
-	log.Printf("check ns[%s] exits : %t", ns, b)
+	log.Printf("check ns[%s] exits: %t", ns, b)
 }
 
 func (nsUtil *NamespaceUtil) GetNs(ctx context.Context, ns string) (*corev1.Namespace, error) {

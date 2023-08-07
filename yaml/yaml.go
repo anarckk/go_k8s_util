@@ -113,3 +113,17 @@ func (yamlUtil *YamlUtil) CreateResourceByYaml(ctx context.Context, ns string, y
 	}
 	return results, nil
 }
+
+func (yamlUtil *YamlUtil) DeleteResourceByYaml(ctx context.Context, ns string, yamlContent []byte) error {
+	yamlArr, err := ParseYaml(yamlContent)
+	if err != nil {
+		return err
+	}
+	for _, yamlU := range yamlArr {
+		err := yamlUtil.DeleteResourceByUnstructured(ctx, ns, yamlU.Unstructured)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}

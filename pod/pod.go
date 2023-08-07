@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"gogs.bee.anarckk.me/anarckk/go_k8s_util/k8s_assist"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -43,11 +44,15 @@ func (podUtil *PodUtil) ListPodsByLabels(ctx context.Context, ns string, labels 
 }
 
 func (podUtil *PodUtil) PodExistByName(ctx context.Context, ns string, podName string) (bool, error) {
-	pod, err := podUtil.GetPodByName(ctx, ns, podName)
+	_, err := podUtil.GetPodByName(ctx, ns, podName)
 	if err != nil {
-		return false, err
+		if k8s_assist.IsNotFound(err) {
+			return false, nil
+		} else {
+			return false, err
+		}
 	}
-	return pod != nil, nil
+	return true, nil
 }
 
 func (podUtil *PodUtil) GetPodByName(ctx context.Context, ns string, podName string) (*corev1.Pod, error) {

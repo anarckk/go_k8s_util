@@ -51,7 +51,7 @@ func (nodeUtil *NodeUtil) WatchNodeByName(ctx context.Context, name string) (wat
 }
 
 func GetAllocatableCpu(node *corev1.Node) int64 {
-	res := node.Status.Allocatable["cpu"]
+	res := node.Status.Allocatable[corev1.ResourceCPU]
 	i64, b := res.AsInt64()
 	if !b {
 		log.Println("occur error", res)
@@ -61,7 +61,7 @@ func GetAllocatableCpu(node *corev1.Node) int64 {
 }
 
 func GetAllocatableMemory(node *corev1.Node) int64 {
-	res := node.Status.Allocatable["memory"]
+	res := node.Status.Allocatable[corev1.ResourceMemory]
 	i64, b := res.AsInt64()
 	if !b {
 		log.Println("occur error", res)
@@ -71,7 +71,7 @@ func GetAllocatableMemory(node *corev1.Node) int64 {
 }
 
 func GetAllocatableEphemeralStorage(node *corev1.Node) int64 {
-	res := node.Status.Allocatable["ephemeral-storage"]
+	res := node.Status.Allocatable[corev1.ResourceEphemeralStorage]
 	i64, b := res.AsInt64()
 	if !b {
 		log.Println("occur error", res)

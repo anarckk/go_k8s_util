@@ -3,11 +3,8 @@ package node
 import (
 	"context"
 	"fmt"
-	"log"
 
-	"gogs.bee.anarckk.me/anarckk/go_bit_util"
-	"gogs.bee.anarckk.me/anarckk/go_k8s_util/util"
-	"gogs.bee.anarckk.me/anarckk/go_map_util"
+	"gogs.bee.anarckk.me/anarckk/go_k8s_util/k8s_assist"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/watch"
@@ -50,76 +47,26 @@ func (nodeUtil *NodeUtil) WatchNodeByName(ctx context.Context, name string) (wat
 	return nodeUtil.ClientSet.CoreV1().Nodes().Watch(ctx, metav1.ListOptions{FieldSelector: fmt.Sprintf("metadata.name=%s", name)})
 }
 
-func GetAllocatableCpu(node *corev1.Node) int64 {
-	res := node.Status.Allocatable[corev1.ResourceCPU]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
+func GetAllocatableCpu(node *corev1.Node) float64 {
+	return k8s_assist.GetResourceCpu(node.Status.Allocatable)
 }
 
 func GetAllocatableMemory(node *corev1.Node) int64 {
-	res := node.Status.Allocatable[corev1.ResourceMemory]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
+	return k8s_assist.GetResourceMemory(node.Status.Allocatable)
 }
 
 func GetAllocatableEphemeralStorage(node *corev1.Node) int64 {
-	res := node.Status.Allocatable[corev1.ResourceEphemeralStorage]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
+	return k8s_assist.GetResourceEphemeralStorage(node.Status.Allocatable)
 }
 
-func GetCapacityCpu(node *corev1.Node) int64 {
-	res := node.Status.Capacity["cpu"]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
+func GetCapacityCpu(node *corev1.Node) float64 {
+	return k8s_assist.GetResourceCpu(node.Status.Capacity)
 }
 
 func GetCapacityMemory(node *corev1.Node) int64 {
-	res := node.Status.Capacity["memory"]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
+	return k8s_assist.GetResourceMemory(node.Status.Capacity)
 }
 
 func GetCapacityEphemeralStorage(node *corev1.Node) int64 {
-	res := node.Status.Capacity["ephemeral-storage"]
-	i64, b := res.AsInt64()
-	if !b {
-		log.Println("occur error", res)
-		return 0
-	}
-	return i64
-}
-
-func SimpleNode(node *corev1.Node) {
-	log.Printf("name: %s\n", node.Name)
-	log.Printf("labels: %s\n", util.ComposeMap(node.Labels))
-	log.Printf("address: %s\n", go_map_util.ComposeStrArray2(node.Status.Addresses, func(a corev1.NodeAddress) string {
-		return a.Address
-	}))
-	log.Printf("allocatable cpu: %d\n", GetAllocatableCpu(node))
-	log.Printf("allocatable memory: %d %s\n", GetAllocatableMemory(node), go_bit_util.ByteCountBinary(GetAllocatableMemory(node)))
-	log.Printf("allocatable disk: %d %s\n", GetAllocatableEphemeralStorage(node), go_bit_util.ByteCountBinary(GetAllocatableEphemeralStorage(node)))
-	log.Printf("capacity cpu: %d\n", GetCapacityCpu(node))
-	log.Printf("capacity memory: %d %s\n", GetCapacityMemory(node), go_bit_util.ByteCountBinary(GetCapacityMemory(node)))
-	log.Printf("capacity disk: %d %s\n", GetCapacityEphemeralStorage(node), go_bit_util.ByteCountBinary(GetCapacityEphemeralStorage(node)))
+	return k8s_assist.GetResourceEphemeralStorage(node.Status.Capacity)
 }

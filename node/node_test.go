@@ -30,13 +30,3 @@ func getNode(t *testing.T) *NodeUtil {
 	}
 	return &NodeUtil{clientset}
 }
-
-func TestGetNode(t *testing.T) {
-	nodeUtil := getNode(t)
-	k8s2, err := nodeUtil.GetNode(context.Background(), "k8s2")
-	if err != nil {
-		t.Error(err)
-	}
-
-	SimpleNode(k8s2)
-}

@@ -3,6 +3,8 @@ module gogs.bee.anarckk.me/anarckk/go_k8s_util
 go 1.20
 
 require (
+	gogs.bee.anarckk.me/anarckk/go_bit_util v0.0.0-20230626055742-ac848f503cb7
+	gogs.bee.anarckk.me/anarckk/go_map_util v0.0.0-20230808033714-e0cf5b32ab9a
 	k8s.io/api v0.27.4
 	k8s.io/apimachinery v0.27.4
 	k8s.io/client-go v0.27.4

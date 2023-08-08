@@ -1,4 +1,4 @@
-package go_k8s_util
+package connect
 
 import (
 	"errors"

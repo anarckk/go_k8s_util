@@ -1,6 +1,7 @@
 package go_k8s_util
 
 import (
+	"gogs.bee.anarckk.me/anarckk/go_k8s_util/connect"
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/ns"
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/pod"
 	"gogs.bee.anarckk.me/anarckk/go_k8s_util/yaml"
@@ -14,7 +15,7 @@ type K8sUtil struct {
 
 func NewK8s() (*K8sUtil, error) {
 	var k8sUtil K8sUtil
-	clientset, config, err := GetK8sClientset()
+	clientset, config, err := connect.GetK8sClientset()
 	if err != nil {
 		return nil, err
 	}

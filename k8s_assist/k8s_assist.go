@@ -20,11 +20,6 @@ func GetResourceCpu(resList corev1.ResourceList) float64 {
 	return res.AsApproximateFloat64()
 }
 
-func GetResourceCpu2(resList corev1.ResourceList) float64 {
-	res := resList[corev1.ResourceCPU]
-	return res.AsApproximateFloat64()
-}
-
 func GetResourceMemory(resList corev1.ResourceList) int64 {
 	res := resList[corev1.ResourceMemory]
 	i64, b := res.AsInt64()

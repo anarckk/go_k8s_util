@@ -65,7 +65,7 @@ func (k8sUtil *K8sUtil) SimpleNodeInfo(nodeName string) {
 	var disk int64 = 0
 	for _, p := range pods {
 		for _, c := range p.Spec.Containers {
-			c1 := k8s_assist.GetResourceCpu2(c.Resources.Requests)
+			c1 := k8s_assist.GetResourceCpu(c.Resources.Requests)
 			m1 := k8s_assist.GetResourceMemory(c.Resources.Requests)
 			d1 := k8s_assist.GetResourceEphemeralStorage(c.Resources.Requests)
 			cpu += c1
